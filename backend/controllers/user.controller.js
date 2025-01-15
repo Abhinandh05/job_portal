@@ -1,52 +1,49 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import cloudinary from "../utils/cloudinary.js";
+import getDataUri from "../utils/datauri.js";
 
 export const register = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, password, role } = req.body;
-
-        // Validate the fields
+         
         if (!fullname || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
                 message: "Something is missing",
                 success: false
             });
-        }
+        };
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-        // Check if the user already exists
-        const userExists = await User.findOne({ email });
-        if (userExists) {
+        const user = await User.findOne({ email });
+        if (user) {
             return res.status(400).json({
-                message: 'User already exists with this email.',
+                message: 'User already exist with this email.',
                 success: false,
-            });
+            })
         }
-
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create the user
         await User.create({
             fullname,
             email,
             phoneNumber,
             password: hashedPassword,
             role,
-            profile: {}  // No profile photo or file handling anymore
+            profile:{
+                profilePhoto:cloudResponse.secure_url,
+            }
         });
 
         return res.status(201).json({
             message: "Account created successfully.",
             success: true
         });
-
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            message: "An error occurred while registering the user.",
-            success: false
-        });
+        console.log(error);
     }
 }
 
@@ -128,19 +125,20 @@ export const logout = async (req, res) => {
         return res.status(200).cookie("token", "", { maxAge: 0 }).json({
             message: "Logged out successfully.",
             success: true
-        });
+        })
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            message: "An error occurred while logging out.",
-            success: false
-        });
+        console.log(error);
     }
 }
 
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
+
+        const file= req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
 
         let skillsArray;
         if (skills) {
@@ -163,6 +161,13 @@ export const updateProfile = async (req, res) => {
         if (phoneNumber) user.phoneNumber = phoneNumber;
         if (bio) user.profile.bio = bio;
         if (skills) user.profile.skills = skillsArray;
+
+
+
+        if(cloudResponse){
+            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
+            user.profile.resumeOriginalName = file.originalname // Save the original file name
+        }
 
         await user.save();
 
