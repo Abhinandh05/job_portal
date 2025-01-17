@@ -50,7 +50,7 @@ const CompaniesTable = () => {
                                             <MoreHorizontal className="w-5 h-5 cursor-pointer" />
                                         </PopoverTrigger>
                                         <PopoverContent className="w-36 p-2 bg-white border shadow-md rounded-md">
-                                            <div onClick={() => navigate(`/admin/companies/`)} className="flex items-center gap-3 text-gray-700 hover:text-[#F83002] cursor-pointer p-2 rounded-md transition-all duration-200 ease-in-out">
+                                            <div onClick={() => navigate(`/admin/companies/{company._id}`)} className="flex items-center gap-3 text-gray-700 hover:text-[#F83002] cursor-pointer p-2 rounded-md transition-all duration-200 ease-in-out">
                                                 <Edit2 className="w-4 h-4" />
                                                 <span>Edit</span>
                                             </div>

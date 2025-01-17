@@ -18,9 +18,9 @@ const HeroSection = () => {
     return (
         <div className='text-center'>
             <div className='flex flex-col gap-5 my-10'>
-                <span className='mx-auto px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium'>No. 1 Job Portal Website</span>
+                <span className='mx-auto px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium'>Job Portal Website</span>
                 <h1 className='text-5xl font-extrabold text-gray-900'>Search, Apply & <br /> Get Your <span className='text-gradient bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-600'>Dream Jobs</span></h1>
-                <p className='text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid aspernatur temporibus nihil tempora dolor!</p>
+                <p className='text-gray-600'>This job portal helps users find and apply for jobs using filters like location and job type. Features include job suggestions, application tracking, and career tips.</p>
                 <div className='flex w-[40%] shadow-xl border border-gray-300 pl-3 rounded-full items-center gap-4 mx-auto'>
                     <input
                         type="text"
