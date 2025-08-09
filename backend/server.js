@@ -38,3 +38,7 @@ app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`);
 });
 
+
+app.get("/", (_, res) => {
+    res.send("API is working!");
+});
