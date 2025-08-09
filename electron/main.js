@@ -32,7 +32,7 @@ function createWindow() {
   });
 
   if (isDev) {
-    win.loadURL('http://localhost:5173');
+    win.loadURL('https://frontend-8mf3.onrender.com');
   } else {
     win.loadFile(path.join(__dirname, '../client/dist/index.html'));
   }
