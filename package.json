@@ -1,0 +1,46 @@
+{
+  "name": "mern-electron-app",
+  "version": "1.0.0",
+  "main": "electron/main.js",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\"",
+    "dev:frontend": "cd client && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:electron": "wait-on tcp:5173 && electron .",
+    "build:frontend": "cd client && npm run build",
+    "start:electron": "electron .",
+    "build:electron": "npm run build:frontend && electron .",
+    "package": "npm run build:frontend && electron-builder"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^37.2.6",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.mycompany.mernapp",
+    "productName": "MERN Desktop App",
+    "files": [
+      "electron/**/*",
+      "client/dist/**/*",
+      "backend/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
